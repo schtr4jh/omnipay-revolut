@@ -4,146 +4,91 @@ declare(strict_types = 1);
 
 namespace Omnipay\Revolut\Message;
 
-use Omnipay\Common\Message\AbstractRequest;
+use AbstractRequest;
+use Omnipay\Arca\Message\Response;
+
+use function array_merge;
 
 /**
  * Class PurchaseRequest
- * @package Omnipay\Idram\Message
+ *
+ * @package Omnipay\Revolut\Message
  */
 class PurchaseRequest extends AbstractRequest
 {
     /**
-     * Sets the request language.
-     *
-     * @param string $value
-     *
-     * @return $this
-     */
-    public function setLanguage($value)
-    {
-        return $this->setParameter('language', $value);
-    }
-
-    /**
-     * Get the request language.
-     * @return $this
-     */
-    public function getLanguage()
-    {
-        return $this->getParameter('language');
-    }
-
-    /**
-     * Sets the request account ID.
-     *
-     * @param string $value
-     *
-     * @return $this
-     */
-    public function setAccountId($value)
-    {
-        return $this->setParameter('accountId', $value);
-    }
-
-    /**
-     * Get the request account ID.
-     * @return $this
-     */
-    public function getAccountId()
-    {
-        return $this->getParameter('accountId');
-    }
-
-    /**
-     * Sets the request secret key.
-     *
-     * @param string $value
-     *
-     * @return $this
-     */
-    public function setSecretKey($value)
-    {
-        return $this->setParameter('secretKey', $value);
-    }
-
-    /**
-     * Get the request secret key.
-     * @return $this
-     */
-    public function getSecretKey()
-    {
-        return $this->getParameter('secretKey');
-    }
-
-    /**
-     * Sets the request email.
-     *
-     * @param string $value
-     *
-     * @return $this
-     */
-    public function setEmail($value)
-    {
-        return $this->setParameter('email', $value);
-    }
-
-    /**
-     * Get the request email.
-     * @return $this
-     */
-    public function getEmail()
-    {
-        return $this->getParameter('email');
-    }
-
-    /**
-     * Set custom data to get back as is
-     *
-     * @param array $value
-     *
-     * @return $this
-     */
-    public function setCustomData(array $value)
-    {
-        return $this->setParameter('customData', $value);
-    }
-
-    /**
-     * Get custom data
-     * @return mixed
-     */
-    public function getCustomData()
-    {
-        return $this->getParameter('customData', []) ?? [];
-    }
-
-    /**
      * Prepare data to send
+     *
      * @return array
      */
     public function getData()
     {
-        $this->validate('language', 'amount', 'accountId', 'secretKey', 'email');
+        /**
+         * {
+         * "request_id": "string",
+         * "account_id": "449e7a5c-69d3-4b8a-aaaf-5c9b713ebc65",
+         * "receiver": {
+         * "counterparty_id": "fd38dae9-b300-4017-a630-101c4279eafd",
+         * "account_id": "449e7a5c-69d3-4b8a-aaaf-5c9b713ebc65"
+         * },
+         * "amount": 0,
+         * "currency": "string",
+         * "reference": "string",
+         * "schedule_for": "2019-08-24"
+         * }
+         */
+        $this->validate('currency', 'amount', 'accountId', 'accessToken');
 
         return array_merge($this->getCustomData(), [
-            'EDP_LANGUAGE'    => strtoupper($this->getLanguage()),
-            'EDP_REC_ACCOUNT' => $this->getAccountId(),
-            'EDP_DESCRIPTION' => $this->getDescription(),
-            'EDP_AMOUNT'      => $this->getAmount(),
-            'EDP_BILL_NO'     => $this->getTransactionId(),
-            'EDP_EMAIL'       => $this->getEmail(),
+
+            'request_id' => $this->getTransactionId(),
+            'account_id' => $this->getAccountId(),
+            'amount'     => $this->getAmount(),
+            'currency'   => $this->getCurrency(),
+            'reference'  => $this->getTransactionReference(),
+            'receiver'   => [
+                'counterparty_id' => '',
+                'account_id'      => $this->getAccountId()
+            ]
+
         ]);
     }
 
     /**
      * Send data and return response instance
      *
-     * @param mixed $data
+     * @param mixed $body
      *
-     * @return \Omnipay\Common\Message\ResponseInterface|\Omnipay\Idram\Message\PurchaseResponse
+     * @return mixed
      */
-    public function sendData($data)
+    public function sendData($body)
     {
-        return $this->response = new PurchaseResponse($this, $data);
+        //here manipulate the request and pass the data to server
+        $headers = [
+            'Authorization' => 'Bearer '.$this->getAccessToken(),
+        ];
+
+        $httpResponse = $this->httpClient->request($this->getHttpMethod(), $this->getEndpoint(), $headers, $body);
+
+        return $this->createResponse($httpResponse->getBody()->getContents(), $httpResponse->getHeaders());
+    }
+
+    /**
+     * @param       $data
+     * @param array $headers
+     *
+     * @return Response
+     */
+    protected function createResponse($data, $headers = []) : Response
+    {
+        return $this->response = new Response($this, $data, $headers);
+    }
+
+    /**
+     * @return string
+     */
+    public function getEndpoint() : string
+    {
+        return $this->getUrl().'/orders';
     }
 }

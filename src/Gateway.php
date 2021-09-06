@@ -4,11 +4,9 @@ declare(strict_types = 1);
 
 namespace Omnipay\Revolut;
 
-use Omnipay\Common\Http\ClientInterface;
 use Omnipay\Common\AbstractGateway;
 use Omnipay\Revolut\Message\CompletePurchaseRequest;
 use Omnipay\Revolut\Message\PurchaseRequest;
-use Symfony\Component\HttpFoundation\Request as HttpRequest;
 
 /**
  * Braintree Gateway
@@ -36,17 +34,6 @@ class Gateway extends AbstractGateway
     }
 
     /**
-     * Gateway constructor.
-     *
-     * @param \Omnipay\Common\Http\ClientInterface|null      $httpClient
-     * @param \Symfony\Component\HttpFoundation\Request|null $httpRequest
-     */
-    public function __construct(ClientInterface $httpClient = null, HttpRequest $httpRequest = null)
-    {
-        parent::__construct($httpClient, $httpRequest);
-    }
-
-    /**
      * Get default parameters
      *
      * @return array|mixed
@@ -55,7 +42,7 @@ class Gateway extends AbstractGateway
     {
         return [
             'accountId' => '',
-            'secretKey' => '',
+            'accessToken' => '',
         ];
     }
 
@@ -126,47 +113,25 @@ class Gateway extends AbstractGateway
     }
 
     /**
-     * Sets the request secret key.
+     * Sets the request access token.
      *
      * @param string $value
      *
      * @return $this
      */
-    public function setSecretKey($value)
+    public function setAccessToken($value)
     {
-        return $this->setParameter('secretKey', $value);
+        return $this->setParameter('accessToken', $value);
     }
 
     /**
-     * Get the request secret key.
+     * Get the request access token.
      *
      * @return mixed
      */
-    public function getSecretKey()
+    public function getAccessToken()
     {
-        return $this->getParameter('secretKey');
-    }
-
-    /**
-     * Sets the request email.
-     *
-     * @param string $value
-     *
-     * @return $this
-     */
-    public function setEmail($value)
-    {
-        return $this->setParameter('email', $value);
-    }
-
-    /**
-     * Get the request email
-     *
-     * @return mixed
-     */
-    public function getEmail()
-    {
-        return $this->getParameter('email');
+        return $this->getParameter('accessToken');
     }
 
     /**

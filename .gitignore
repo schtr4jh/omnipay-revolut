@@ -8,3 +8,4 @@ reports/
 documents/
 .idea
 .phpunit.result.cache
+src/test.php

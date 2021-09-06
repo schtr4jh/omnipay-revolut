@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\ParameterBag;
 /**
  * Class CompletePurchaseRequest
  *
- * @package Omnipay\Idram\Message
+ * @package Omnipay\Revolut\Message
  */
 class CompletePurchaseRequest extends PurchaseRequest
 {
@@ -28,7 +28,7 @@ class CompletePurchaseRequest extends PurchaseRequest
      *
      * @param mixed $data
      *
-     * @return \Omnipay\Common\Message\ResponseInterface|\Omnipay\Idram\Message\CompletePurchaseResponse
+     * @return \Omnipay\Common\Message\ResponseInterface|\Omnipay\Revolut\Message\CompletePurchaseResponse
      */
     public function sendData($data)
     {
