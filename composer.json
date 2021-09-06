@@ -1,0 +1,37 @@
+{
+  "name": "behzadbabaei/omnipay-revoult",
+  "type": "library",
+  "description": "Revolut gateway for Omnipay payment processing library",
+  "keywords": [
+    "gateway",
+    "merchant",
+    "omnipay",
+    "pay",
+    "payment",
+    "purchase"
+  ],
+  "homepage": "https://github.com/behzadbabaei/omnipay-revoult",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Behzad Babaei",
+      "email": "behzadbabaei69@gmail.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Omnipay\\Revolut\\": "src/"
+    }
+  },
+  "require": {
+    "omnipay/common": "^3"
+  },
+  "require-dev": {
+    "omnipay/tests": "^3"
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "3.0.x-dev"
+    }
+  }
+}
