@@ -9,46 +9,45 @@ use AbstractRequest;
 use function array_merge;
 
 /**
- * Class PurchaseRequest
+ * Class ConfirmOrderRequest
  *
  * @package Omnipay\Revolut\Message
  */
-class PurchaseRequest extends AbstractRequest
+class ConfirmOrderRequest extends AbstractRequest
 {
     /**
+     * Sets the request orderId.
+     *
+     * @param string $value
+     *
+     * @return $this
+     */
+    public function setOrderId($value)
+    {
+        return $this->setParameter('orderId', $value);
+    }
+
+    /**
+     * Get the request orderId.
+     *
+     * @return mixed
+     */
+    public function getOrderId()
+    {
+        return $this->getParameter('orderId');
+    }
+
+    /**
      * Prepare data to send
-     * The sample request payload
-     * {
-     * "request_id": "string",
-     * "account_id": "449e7a5c-69d3-4b8a-aaaf-5c9b713ebc65",
-     * "receiver": {
-     * "counterparty_id": "fd38dae9-b300-4017-a630-101c4279eafd",
-     * "account_id": "449e7a5c-69d3-4b8a-aaaf-5c9b713ebc65"
-     * },
-     * "amount": 0,
-     * "currency": "string",
-     * "reference": "string",
-     * "schedule_for": "2019-08-24"
-     * }
      *
      * @return array
-     * @throws \Omnipay\Common\Exception\InvalidRequestException
      */
     public function getData()
     {
-        $this->validate('currency', 'amount', 'accountId', 'accessToken');
+        $this->validate('paymentMethod');
 
         return array_merge($this->getCustomData(), [
-
-            'request_id' => $this->getTransactionId(),
-            'account_id' => $this->getAccountId(),
-            'amount'     => $this->getAmount(),
-            'currency'   => $this->getCurrency(),
-            'reference'  => $this->getTransactionReference(),
-            'receiver'   => [
-                'counterparty_id' => '',
-                'account_id'      => $this->getAccountId()
-            ]
+            'payment_method_id' => $this->getPaymentMethod(),
         ]);
     }
 
@@ -61,7 +60,6 @@ class PurchaseRequest extends AbstractRequest
      */
     public function sendData($body)
     {
-        //here manipulate the request and pass the data to server
         $headers = [
             'Authorization' => 'Bearer '.$this->getAccessToken(),
         ];
@@ -87,6 +85,7 @@ class PurchaseRequest extends AbstractRequest
      */
     public function getEndpoint() : string
     {
-        return $this->getUrl().'/orders';
+        $orderId = $this->getOrderId();
+        return $this->getUrl().'/orders/'.$orderId.'/confirm';
     }
 }

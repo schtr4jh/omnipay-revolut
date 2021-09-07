@@ -5,17 +5,18 @@ declare(strict_types = 1);
 namespace Omnipay\Revolut;
 
 use Omnipay\Common\AbstractGateway;
-use Omnipay\Revolut\Message\CompletePurchaseRequest;
+use Omnipay\Revolut\Message\CancelOrderRequest;
+use Omnipay\Revolut\Message\CaptureOrderRequest;
+use Omnipay\Revolut\Message\ConfirmOrderRequest;
 use Omnipay\Revolut\Message\PurchaseRequest;
+use Omnipay\Revolut\Message\RefundOrderRequest;
+use Omnipay\Revolut\Message\RetrieveOrderRequest;
 
 /**
  * Braintree Gateway
  * @method \Omnipay\Common\Message\NotificationInterface acceptNotification(array $options = array())
  * @method \Omnipay\Common\Message\RequestInterface authorize(array $options = array())
  * @method \Omnipay\Common\Message\RequestInterface completeAuthorize(array $options = array())
- * @method \Omnipay\Common\Message\RequestInterface capture(array $options = array())
- * @method \Omnipay\Common\Message\RequestInterface refund(array $options = array())
- * @method \Omnipay\Common\Message\RequestInterface fetchTransaction(array $options = [])
  * @method \Omnipay\Common\Message\RequestInterface void(array $options = array())
  * @method \Omnipay\Common\Message\RequestInterface createCard(array $options = array())
  * @method \Omnipay\Common\Message\RequestInterface updateCard(array $options = array())
@@ -153,7 +154,7 @@ class Gateway extends AbstractGateway
      */
     public function getCustomData()
     {
-        return $this->getParameter('customData', []);
+        return $this->getParameter('customData');
     }
 
     /**
@@ -169,7 +170,7 @@ class Gateway extends AbstractGateway
     }
 
     /**
-     * Complete purchase
+     * Create a confirm request
      *
      * @param array $options
      *
@@ -177,7 +178,55 @@ class Gateway extends AbstractGateway
      */
     public function completePurchase(array $options = array())
     {
-        return $this->createRequest(CompletePurchaseRequest::class, $options);
+        return $this->createRequest(ConfirmOrderRequest::class, $options);
+    }
+
+    /**
+     * Create a refund request
+     *
+     * @param array $options
+     *
+     * @return \Omnipay\Common\Message\AbstractRequest|\Omnipay\Common\Message\RequestInterface
+     */
+    public function refund(array $options = array())
+    {
+        return $this->createRequest(RefundOrderRequest::class, $options);
+    }
+
+    /**
+     * Create a retrieve order request
+     *
+     * @param array $options
+     *
+     * @return \Omnipay\Common\Message\AbstractRequest|\Omnipay\Common\Message\RequestInterface
+     */
+    public function fetchTransaction(array $options = array())
+    {
+        return $this->createRequest(RetrieveOrderRequest::class, $options);
+    }
+
+    /**
+     * Create a confirm request
+     *
+     * @param array $options
+     *
+     * @return \Omnipay\Common\Message\AbstractRequest|\Omnipay\Common\Message\RequestInterface
+     */
+    public function capture(array $options = array())
+    {
+        return $this->createRequest(CaptureOrderRequest::class, $options);
+    }
+
+    /**
+     * Create a cancel request
+     *
+     * @param array $options
+     *
+     * @return \Omnipay\Common\Message\AbstractRequest|\Omnipay\Common\Message\RequestInterface
+     */
+    public function cancel(array $options = array())
+    {
+        return $this->createRequest(CancelOrderRequest::class, $options);
     }
 
     public function __call($name, $arguments)
@@ -185,8 +234,6 @@ class Gateway extends AbstractGateway
         // TODO: Implement @method \Omnipay\Common\Message\NotificationInterface acceptNotification(array $options = array())
         // TODO: Implement @method \Omnipay\Common\Message\RequestInterface authorize(array $options = array())
         // TODO: Implement @method \Omnipay\Common\Message\RequestInterface completeAuthorize(array $options = array())
-        // TODO: Implement @method \Omnipay\Common\Message\RequestInterface capture(array $options = array())
-        // TODO: Implement @method \Omnipay\Common\Message\RequestInterface refund(array $options = array())
         // TODO: Implement @method \Omnipay\Common\Message\RequestInterface fetchTransaction(array $options = [])
         // TODO: Implement @method \Omnipay\Common\Message\RequestInterface void(array $options = array())
         // TODO: Implement @method \Omnipay\Common\Message\RequestInterface createCard(array $options = array())

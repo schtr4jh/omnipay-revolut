@@ -2,7 +2,7 @@
 
 declare(strict_types = 1);
 
-namespace Omnipay\Arca\Message;
+namespace Omnipay\Revolut\Message;
 
 use Omnipay\Common\Message\AbstractResponse;
 use Omnipay\Common\Message\RequestInterface;
@@ -11,7 +11,7 @@ use Omnipay\Common\Message\RedirectResponseInterface;
 use function json_decode;
 
 /**
- * Arca Response.
+ * Revolut Response.
  *
  * This is the response class for all Arca requests.
  *
