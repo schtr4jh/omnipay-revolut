@@ -4,8 +4,6 @@ declare(strict_types = 1);
 
 namespace Omnipay\Revolut\Message;
 
-use AbstractRequest;
-
 use function array_merge;
 
 /**
@@ -54,17 +52,25 @@ class ConfirmOrderRequest extends AbstractRequest
     /**
      * Send data and return response instance
      *
+     * https://developer.revolut.com/api-reference/merchant/#operation/confirmOrder
+     *
      * @param mixed $body
      *
-     * @return mixed
+     * @return \Omnipay\Revolut\Message\Response
      */
-    public function sendData($body)
+    public function sendData($body) : Response
     {
         $headers = [
             'Authorization' => 'Bearer '.$this->getAccessToken(),
+            'Content-Type'  => 'application/json'
         ];
 
-        $httpResponse = $this->httpClient->request($this->getHttpMethod(), $this->getEndpoint(), $headers, $body);
+        $httpResponse = $this->httpClient->request(
+            $this->getHttpMethod(),
+            $this->getEndpoint(),
+            $headers,
+            json_encode($body)
+        );
 
         return $this->createResponse($httpResponse->getBody()->getContents(), $httpResponse->getHeaders());
     }
@@ -86,6 +92,7 @@ class ConfirmOrderRequest extends AbstractRequest
     public function getEndpoint() : string
     {
         $orderId = $this->getOrderId();
+
         return $this->getUrl().'/orders/'.$orderId.'/confirm';
     }
 }

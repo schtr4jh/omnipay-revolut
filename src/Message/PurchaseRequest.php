@@ -4,9 +4,8 @@ declare(strict_types = 1);
 
 namespace Omnipay\Revolut\Message;
 
-use AbstractRequest;
-
 use function array_merge;
+use function json_encode;
 
 /**
  * Class PurchaseRequest
@@ -16,44 +15,54 @@ use function array_merge;
 class PurchaseRequest extends AbstractRequest
 {
     /**
-     * Prepare data to send
-     * The sample request payload
-     * {
-     * "request_id": "string",
-     * "account_id": "449e7a5c-69d3-4b8a-aaaf-5c9b713ebc65",
-     * "receiver": {
-     * "counterparty_id": "fd38dae9-b300-4017-a630-101c4279eafd",
-     * "account_id": "449e7a5c-69d3-4b8a-aaaf-5c9b713ebc65"
-     * },
-     * "amount": 0,
-     * "currency": "string",
-     * "reference": "string",
-     * "schedule_for": "2019-08-24"
-     * }
+     * Sets the counterPartyId.
+     *
+     * @param string $value
+     *
+     * @return $this
+     */
+    public function setCounterPartyId($value)
+    {
+        return $this->setParameter('counterPartyId', $value);
+    }
+
+    /**
+     * Get the counterPartyId.
+     *
+     * @return mixed
+     */
+    public function getCounterPartyId()
+    {
+        return $this->getParameter('counterPartyId');
+    }
+
+    /**
+     * Prepare the data for creating the order.
+     *
+     * https://developer.revolut.com/api-reference/merchant/#operation/createOrder
      *
      * @return array
      * @throws \Omnipay\Common\Exception\InvalidRequestException
      */
     public function getData()
     {
-        $this->validate('currency', 'amount', 'accountId', 'accessToken');
+        $this->validate('currency', 'amount');
 
         return array_merge($this->getCustomData(), [
-
             'request_id' => $this->getTransactionId(),
             'account_id' => $this->getAccountId(),
             'amount'     => $this->getAmount(),
             'currency'   => $this->getCurrency(),
             'reference'  => $this->getTransactionReference(),
             'receiver'   => [
-                'counterparty_id' => '',
+                'counterparty_id' => $this->getCounterPartyId(),
                 'account_id'      => $this->getAccountId()
             ]
         ]);
     }
 
     /**
-     * Send data and return response instance
+     * Send data and return response instance.
      *
      * @param mixed $body
      *
@@ -61,12 +70,17 @@ class PurchaseRequest extends AbstractRequest
      */
     public function sendData($body)
     {
-        //here manipulate the request and pass the data to server
         $headers = [
             'Authorization' => 'Bearer '.$this->getAccessToken(),
+            'Content-Type'  => 'application/json'
         ];
 
-        $httpResponse = $this->httpClient->request($this->getHttpMethod(), $this->getEndpoint(), $headers, $body);
+        $httpResponse = $this->httpClient->request(
+            $this->getHttpMethod(),
+            $this->getEndpoint(),
+            $headers,
+            json_encode($body)
+        );
 
         return $this->createResponse($httpResponse->getBody()->getContents(), $httpResponse->getHeaders());
     }

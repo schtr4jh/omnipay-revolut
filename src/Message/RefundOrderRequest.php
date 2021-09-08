@@ -4,8 +4,6 @@ declare(strict_types = 1);
 
 namespace Omnipay\Revolut\Message;
 
-use AbstractRequest;
-
 use function array_merge;
 
 /**
@@ -60,7 +58,7 @@ class RefundOrderRequest extends AbstractRequest
     }
 
     /**
-     * Prepare data to send
+     * Prepare data to send.
      *
      * @return array
      * @throws \Omnipay\Common\Exception\InvalidRequestException
@@ -78,7 +76,9 @@ class RefundOrderRequest extends AbstractRequest
     }
 
     /**
-     * Send data and return response instance
+     * Send data and return response instance.
+     *
+     * https://developer.revolut.com/api-reference/merchant/#operation/refundOrder
      *
      * @param mixed $body
      *
@@ -88,9 +88,15 @@ class RefundOrderRequest extends AbstractRequest
     {
         $headers = [
             'Authorization' => 'Bearer '.$this->getAccessToken(),
+            'Content-Type'  => 'application/json'
         ];
 
-        $httpResponse = $this->httpClient->request($this->getHttpMethod(), $this->getEndpoint(), $headers, $body);
+        $httpResponse = $this->httpClient->request(
+            $this->getHttpMethod(),
+            $this->getEndpoint(),
+            $headers,
+            json_encode($body)
+        );
 
         return $this->createResponse($httpResponse->getBody()->getContents(), $httpResponse->getHeaders());
     }
@@ -112,6 +118,7 @@ class RefundOrderRequest extends AbstractRequest
     public function getEndpoint() : string
     {
         $orderId = $this->getOrderId();
+
         return $this->getUrl().'/orders/'.$orderId.'/refund';
     }
 }

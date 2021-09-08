@@ -4,9 +4,8 @@ declare(strict_types = 1);
 
 namespace Omnipay\Revolut\Message;
 
-use AbstractRequest;
-
 use function array_merge;
+use function json_encode;
 
 /**
  * Class CaptureOrderRequest
@@ -38,11 +37,12 @@ class CaptureOrderRequest extends AbstractRequest
     }
 
     /**
-     * Prepare data to send
+     * Prepare data for capturing order.
      *
      * @return array
+     * @throws \Omnipay\Common\Exception\InvalidRequestException
      */
-    public function getData()
+    public function getData() : array
     {
         $this->validate('amount');
 
@@ -52,7 +52,9 @@ class CaptureOrderRequest extends AbstractRequest
     }
 
     /**
-     * Send data and return response instance
+     * Send data and return response instance.
+     *
+     * https://developer.revolut.com/api-reference/merchant/#operation/captureOrder
      *
      * @param mixed $body
      *
@@ -62,9 +64,15 @@ class CaptureOrderRequest extends AbstractRequest
     {
         $headers = [
             'Authorization' => 'Bearer '.$this->getAccessToken(),
+            'Content-Type'  => 'application/json'
         ];
 
-        $httpResponse = $this->httpClient->request($this->getHttpMethod(), $this->getEndpoint(), $headers, $body);
+        $httpResponse = $this->httpClient->request(
+            $this->getHttpMethod(),
+            $this->getEndpoint(),
+            $headers,
+            json_encode($body)
+        );
 
         return $this->createResponse($httpResponse->getBody()->getContents(), $httpResponse->getHeaders());
     }
@@ -86,6 +94,7 @@ class CaptureOrderRequest extends AbstractRequest
     public function getEndpoint() : string
     {
         $orderId = $this->getOrderId();
+
         return $this->getUrl().'/orders/'.$orderId.'/capture';
     }
 }

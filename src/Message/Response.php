@@ -9,11 +9,12 @@ use Omnipay\Common\Message\RequestInterface;
 use Omnipay\Common\Message\RedirectResponseInterface;
 
 use function json_decode;
+use function in_array;
 
 /**
  * Revolut Response.
  *
- * This is the response class for all Arca requests.
+ * This is the response class for all Revolut requests.
  *
  * @see \Omnipay\Revolut\Gateway
  */

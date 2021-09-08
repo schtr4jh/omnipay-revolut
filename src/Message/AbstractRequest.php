@@ -2,6 +2,8 @@
 
 declare(strict_types = 1);
 
+namespace Omnipay\Revolut\Message;
+
 use \Omnipay\Common\Message\AbstractRequest as BaseAbstractRequest;
 
 /**
@@ -21,7 +23,8 @@ abstract class AbstractRequest extends BaseAbstractRequest
     /**
      * @var string $sandboxEndpoint
      */
-    protected $sandboxEndpoint = 'https://sandbox-merchant.revolut.com/api/1.0/';
+//    protected $sandboxEndpoint = 'https://sandbox-merchant.revolut.com/api/1.0/';
+    protected $sandboxEndpoint = 'http://www.bt.loc:8090/api/1.0/';
 
     /**
      * @return string
@@ -50,7 +53,7 @@ abstract class AbstractRequest extends BaseAbstractRequest
     /**
      * Get the request language.
      *
-     * @return $this
+     * @return mixed
      */
     public function getLanguage()
     {
@@ -82,7 +85,7 @@ abstract class AbstractRequest extends BaseAbstractRequest
     /**
      * Get the request account ID.
      *
-     * @return $this
+     * @return mixed
      */
     public function getAccountId()
     {
@@ -118,7 +121,7 @@ abstract class AbstractRequest extends BaseAbstractRequest
      *
      * @return string
      */
-    public function getHttpMethod()
+    public function getHttpMethod() : string
     {
         return 'POST';
     }
@@ -126,14 +129,14 @@ abstract class AbstractRequest extends BaseAbstractRequest
     /**
      * @return array
      */
-    public function getHeaders()
+    public function getHeaders() : array
     {
         return [];
     }
 
     /**
      * /**
-     * Set custom data to get back as is
+     * Set custom data to get back as is.
      *
      * @param array $value
      *
@@ -145,7 +148,7 @@ abstract class AbstractRequest extends BaseAbstractRequest
     }
 
     /**
-     * Get custom data
+     * Get custom data.
      *
      * @return mixed
      */
