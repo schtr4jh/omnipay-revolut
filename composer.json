@@ -1,40 +1,38 @@
 {
-  "name": "behzadbabaei/omnipay-revolut",
-  "type": "library",
-  "description": "Revolut gateway for Omnipay payment processing library",
+  "name": "behzadbabaei/omnipay-2checkout",
+  "description": "Revolut driver for the Omnipay payment processing library",
   "keywords": [
-    "gateway",
-    "merchant",
     "omnipay",
-    "pay",
-    "payment",
-    "purchase"
+    "revolut"
   ],
-  "homepage": "https://github.com/behzadbabaei/omnipay-revolut",
+  "homepage": "https://github.com/behzadbabaei/omnipay-Revolut",
   "license": "MIT",
   "authors": [
     {
       "name": "Behzad Babaei",
-      "email": "behzadbabaei69@gmail.com"
+      "email": "behzadbabaei69@gmail.com",
+      "homepage": "http://www.behzadbabaei.com"
     }
   ],
-  "autoload": {
-    "psr-4": {
-      "Omnipay\\Revolut\\": "src/"
-    }
-  },
   "require": {
     "omnipay/common": "^3",
+    "php": "^7.2|^8",
     "ext-json": "*"
   },
   "require-dev": {
     "omnipay/tests": "^3"
   },
-  "minimum-stability": "dev",
-  "prefer-stable": true,
+  "autoload": {
+    "psr-4": {
+      "Omnipay\\Revolut\\": "src/"
+    }
+  },
+  "scripts": {
+    "test": "phpunit"
+  },
   "extra": {
     "branch-alias": {
-      "dev-master": "3.0.x-dev"
+      "dev-master": "2.0.x-dev"
     }
   }
 }
