@@ -1,11 +1,11 @@
 {
-  "name": "behzadbabaei/omnipay-2checkout",
+  "name": "behzadbabaei/omnipay-revolut",
   "description": "Revolut driver for the Omnipay payment processing library",
   "keywords": [
     "omnipay",
     "revolut"
   ],
-  "homepage": "https://github.com/behzadbabaei/omnipay-Revolut",
+  "homepage": "https://github.com/behzadbabaei/omnipay-revolut",
   "license": "MIT",
   "authors": [
     {
