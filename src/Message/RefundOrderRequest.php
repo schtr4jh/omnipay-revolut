@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace Omnipay\Revolut\Message;
 
 use function array_merge;
+use function json_encode;
 
 /**
  * Class RefundOrderRequest
@@ -42,9 +43,9 @@ class RefundOrderRequest extends AbstractRequest
      *
      * @return $this
      */
-    public function setMerchantOrderExtRef($value)
+    public function setMerchantOrderReference($value)
     {
-        return $this->setParameter('merchantOrderExtRef', $value);
+        return $this->setParameter('merchantOrderReference', $value);
     }
 
     /**
@@ -52,9 +53,9 @@ class RefundOrderRequest extends AbstractRequest
      *
      * @return mixed
      */
-    public function getMerchantOrderExtRef()
+    public function getMerchantOrderReference()
     {
-        return $this->getParameter('merchantOrderExtRef');
+        return $this->getParameter('merchantOrderReference');
     }
 
     /**
@@ -70,7 +71,7 @@ class RefundOrderRequest extends AbstractRequest
         return array_merge($this->getCustomData(), [
             'amount'                 => $this->getAmount(),
             'currency'               => $this->getCurrency(),
-            'merchant_order_ext_ref' => $this->getMerchantOrderExtRef(),
+            'merchant_order_ext_ref' => $this->getMerchantOrderReference(),
             'description'            => $this->getDescription(),
         ]);
     }

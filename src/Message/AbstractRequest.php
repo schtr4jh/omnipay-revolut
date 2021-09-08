@@ -18,13 +18,12 @@ abstract class AbstractRequest extends BaseAbstractRequest
      *
      * @var string $prodEndpoint
      */
-    protected $prodEndpoint = 'https://merchant.revolut.com/api/1.0/';
+    protected $prodEndpoint = 'https://merchant.revolut.com/api/1.0';
 
     /**
      * @var string $sandboxEndpoint
      */
-//    protected $sandboxEndpoint = 'https://sandbox-merchant.revolut.com/api/1.0/';
-    protected $sandboxEndpoint = 'http://www.bt.loc:8090/api/1.0/';
+    protected $sandboxEndpoint = 'https://sandbox-merchant.revolut.com/api/1.0';
 
     /**
      * @return string

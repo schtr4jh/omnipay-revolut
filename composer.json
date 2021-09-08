@@ -1,5 +1,5 @@
 {
-  "name": "behzadbabaei/omnipay-revoult",
+  "name": "behzadbabaei/omnipay-revolut",
   "type": "library",
   "description": "Revolut gateway for Omnipay payment processing library",
   "keywords": [
@@ -10,7 +10,7 @@
     "payment",
     "purchase"
   ],
-  "homepage": "https://github.com/behzadbabaei/omnipay-revoult",
+  "homepage": "https://github.com/behzadbabaei/omnipay-revolut",
   "license": "MIT",
   "authors": [
     {

@@ -5,6 +5,7 @@ declare(strict_types = 1);
 namespace Omnipay\Revolut\Message;
 
 use function array_merge;
+use function json_encode;
 
 /**
  * Class ConfirmOrderRequest
