@@ -85,7 +85,7 @@ abstract class AbstractRequest extends BaseAbstractRequest
     }
 
     /**
-     * Get url. Depends on  test mode.
+     * Get url Depends on  test mode.
      *
      * @return string
      */
