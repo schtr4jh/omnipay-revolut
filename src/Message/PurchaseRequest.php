@@ -15,25 +15,91 @@ use function json_encode;
 class PurchaseRequest extends AbstractRequest
 {
     /**
-     * Sets the counterPartyId.
+     * Sets the request merchantOrderExtRef.
      *
      * @param string $value
      *
      * @return $this
      */
-    public function setCounterPartyId($value)
+    public function setMerchantOrderReference($value)
     {
-        return $this->setParameter('counterPartyId', $value);
+        return $this->setParameter('merchantOrderReference', $value);
     }
 
     /**
-     * Get the counterPartyId.
+     * Get the request merchantOrderExtRef.
      *
      * @return mixed
      */
-    public function getCounterPartyId()
+    public function getMerchantOrderReference()
     {
-        return $this->getParameter('counterPartyId');
+        return $this->getParameter('merchantOrderReference');
+    }
+
+    /**
+     * Sets the request captureMode.
+     *
+     * @param string $value
+     *
+     * @return $this
+     */
+    public function setCaptureMode($value)
+    {
+        return $this->setParameter('captureMode', $value);
+    }
+
+    /**
+     * Get the request captureMode.
+     *
+     * @return mixed
+     */
+    public function getCaptureMode()
+    {
+        return $this->getParameter('captureMode');
+    }
+
+    /**
+     * Sets the request customerId.
+     *
+     * @param string $value
+     *
+     * @return $this
+     */
+    public function setCustomerId($value)
+    {
+        return $this->setParameter('customerId', $value);
+    }
+
+    /**
+     * Get the request customerId.
+     *
+     * @return mixed
+     */
+    public function getCustomerId()
+    {
+        return $this->getParameter('customerId');
+    }
+
+    /**
+     * Sets the request settlementCurrency.
+     *
+     * @param string $value
+     *
+     * @return $this
+     */
+    public function setSettlementCurrency($value)
+    {
+        return $this->setParameter('settlementCurrency', $value);
+    }
+
+    /**
+     * Get the request settlementCurrency.
+     *
+     * @return mixed
+     */
+    public function getSettlementCurrency()
+    {
+        return $this->getParameter('settlementCurrency');
     }
 
     /**
@@ -49,15 +115,14 @@ class PurchaseRequest extends AbstractRequest
         $this->validate('currency', 'amount');
 
         return array_merge($this->getCustomData(), [
-            'request_id' => $this->getTransactionId(),
-            'account_id' => $this->getAccountId(),
-            'amount'     => $this->getAmount(),
-            'currency'   => $this->getCurrency(),
-            'reference'  => $this->getTransactionReference(),
-            'receiver'   => [
-                'counterparty_id' => $this->getCounterPartyId(),
-                'account_id'      => $this->getAccountId()
-            ]
+            'amount'                 => $this->getAmount(),
+            'currency'               => $this->getCurrency(),
+            'capture_mode'           => $this->getCaptureMode(),
+            'merchant_order_ext_ref' => $this->getMerchantOrderReference(),
+            'email'                  => $this->getEmail(),
+            'description'            => $this->getDescription(),
+            'settlement_currency'    => $this->getSettlementCurrency() ?? $this->getCurrency(),
+            'customer_id'            => $this->getCustomerId() ?? null,
         ]);
     }
 
@@ -97,6 +162,8 @@ class PurchaseRequest extends AbstractRequest
     }
 
     /**
+     * Get the order create endpoint.
+     *
      * @return string
      */
     public function getEndpoint() : string

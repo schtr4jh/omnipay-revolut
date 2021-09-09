@@ -13,6 +13,9 @@ use \Omnipay\Common\Message\AbstractRequest as BaseAbstractRequest;
  */
 abstract class AbstractRequest extends BaseAbstractRequest
 {
+    const CAPTURE_MODE_AUTOMATIC = "AUTOMATIC";
+    const CAPTURE_MODE_MANUAL = "MANUAL";
+
     /**
      * Gateway production endpoint.
      *
@@ -57,6 +60,28 @@ abstract class AbstractRequest extends BaseAbstractRequest
     public function getLanguage()
     {
         return $this->getParameter('language');
+    }
+
+    /**
+     * Sets the request email.
+     *
+     * @param string $value
+     *
+     * @return $this
+     */
+    public function setEmail($value)
+    {
+        return $this->setParameter('email', $value);
+    }
+
+    /**
+     * Get the request email.
+     *
+     * @return mixed
+     */
+    public function getEmail()
+    {
+        return $this->getParameter('email');
     }
 
     /**

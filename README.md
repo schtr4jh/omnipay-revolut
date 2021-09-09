@@ -51,24 +51,32 @@ Please refer to the [Developer Document](https://developer.revolut.com/api-refer
 
 ```php
 
-        $purchase = $gateway->purchase();
-        $purchase->setAmount(31.90);
-        $purchase->setCurrency("USD");
-        $purchase->setTransactionId('system-transaction-id');
-        $purchase->setCounterPartyId('counter-part-id');
-        $result = $purchase->send()->getData();
+         $purchase = $gateway->purchase();
+         $purchase->setAmount(12.12);
+         $purchase->setCurrency("USD");
+         $purchase->setCaptureMode('AUTOMATIC');
+         $purchase->setMerchantOrderReference('123121');
+         $purchase->setEmail('behzadbabaei69@gmail.com');
+         $purchase->setDescription('order test');
+         $purchase->setSettlementCurrency('GBP');
+         $purchase->setCustomerId(1212);
+         $result = $purchase->send()->getData();
 
 ```
 OR
 
 ```php
 
-        $result = $gateway->purchase([
-            'amount'         => 31.90,
-            'currency'       => 'USD',
-            'transactionId'  => 'system-transaction-id',
-            'counterPartyId' => 'counter-part-id'
-        ])->send()->getData();
+         $result1 = $gateway->purchase([
+              'amount'      => 12.12,
+              'currency'    => 'USD',
+              'captureMode' => 'AUTOMATIC',
+              'merchantOrderReference' => 123121,
+              'email' => 'behzadbabaei69@gmail.com',
+              'description' => 'order test',
+              'settlementCurrency' => 'GBP',
+              'customerId' => 1212,
+         ])->send()->getData();
 
 ```
 
