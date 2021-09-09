@@ -117,10 +117,10 @@ class PurchaseRequest extends AbstractRequest
         return array_merge($this->getCustomData(), [
             'amount'                 => $this->getAmount(),
             'currency'               => $this->getCurrency(),
-            'capture_mode'           => $this->getCaptureMode(),
-            'merchant_order_ext_ref' => $this->getMerchantOrderReference(),
-            'email'                  => $this->getEmail(),
-            'description'            => $this->getDescription(),
+            'capture_mode'           => $this->getCaptureMode() ?? self::CAPTURE_MODE_AUTOMATIC,
+            'merchant_order_ext_ref' => $this->getMerchantOrderReference() ?? null,
+            'email'                  => $this->getEmail() ?? null,
+            'description'            => $this->getDescription() ?? null,
             'settlement_currency'    => $this->getSettlementCurrency() ?? $this->getCurrency(),
             'customer_id'            => $this->getCustomerId() ?? null,
         ]);
