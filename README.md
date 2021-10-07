@@ -130,13 +130,13 @@ Please refer to the [Developer Document](https://developer.revolut.com/api-refer
 
 ```php
 
-       $complete = $gateway->refund();
-        $complete->setAmount(31.90);
-        $complete->setCurrency('USD');
-        $complete->setOrderId(1);
-        $complete->setMerchantOrderReference(1);
-        $complete->setDescription("Test Description");
-        $result1 = $complete->send()->getData();
+        $refund = $gateway->refund();
+        $refund->setAmount(31.90);
+        $refund->setCurrency('USD');
+        $refund->setOrderId(1);
+        $refund->setMerchantOrderReference(1);
+        $refund->setDescription("Test Description");
+        $result1 = $refund->send()->getData();
 
 ```
 OR
@@ -158,9 +158,9 @@ Please refer to the [Developer Document](https://developer.revolut.com/api-refer
 
 ```php
 
-         $complete = $gateway->cancel();
-        $complete->setOrderId(1);
-        $result1 = $complete->send()->getData();
+        $cancel = $gateway->cancel();
+        $cancel->setOrderId(1);
+        $result1 = $cancel->send()->getData();
 
 ```
 OR
