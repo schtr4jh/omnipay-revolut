@@ -8,9 +8,11 @@ use Omnipay\Common\AbstractGateway;
 use Omnipay\Revolut\Message\CancelOrderRequest;
 use Omnipay\Revolut\Message\CaptureOrderRequest;
 use Omnipay\Revolut\Message\ConfirmOrderRequest;
+use Omnipay\Revolut\Message\GetWebhooksRequest;
 use Omnipay\Revolut\Message\PurchaseRequest;
 use Omnipay\Revolut\Message\RefundOrderRequest;
 use Omnipay\Revolut\Message\RetrieveOrderRequest;
+use Omnipay\Revolut\Message\SetWebhooksRequest;
 
 /**
  * Braintree Gateway
@@ -227,6 +229,30 @@ class Gateway extends AbstractGateway
     public function cancel(array $options = array())
     {
         return $this->createRequest(CancelOrderRequest::class, $options);
+    }
+
+    /**
+     * Get all webhooks.
+     *
+     * @param array $options
+     *
+     * @return \Omnipay\Common\Message\AbstractRequest|\Omnipay\Common\Message\RequestInterface
+     */
+    public function getWebhooks(array $options = array())
+    {
+        return $this->createRequest(GetWebhooksRequest::class, $options);
+    }
+
+    /**
+     * Get all webhooks.
+     *
+     * @param array $options
+     *
+     * @return \Omnipay\Common\Message\AbstractRequest|\Omnipay\Common\Message\RequestInterface
+     */
+    public function postWebhook(array $options = array())
+    {
+        return $this->createRequest(SetWebhooksRequest::class, $options);
     }
 
     public function __call($name, $arguments)
