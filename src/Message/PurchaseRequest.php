@@ -115,7 +115,7 @@ class PurchaseRequest extends AbstractRequest
         $this->validate('currency', 'amount');
 
         return array_merge($this->getCustomData(), [
-            'amount'                 => $this->getAmount(),
+            'amount'                 => $this->getAmountInteger(),
             'currency'               => $this->getCurrency(),
             'capture_mode'           => $this->getCaptureMode() ?? self::CAPTURE_MODE_AUTOMATIC,
             'merchant_order_ext_ref' => $this->getMerchantOrderReference() ?? null,
@@ -139,7 +139,6 @@ class PurchaseRequest extends AbstractRequest
             'Authorization' => 'Bearer '.$this->getAccessToken(),
             'Content-Type'  => 'application/json'
         ];
-
         $httpResponse = $this->httpClient->request(
             $this->getHttpMethod(),
             $this->getEndpoint(),
