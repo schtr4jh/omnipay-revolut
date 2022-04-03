@@ -14,6 +14,11 @@ use function json_encode;
  */
 class SetWebhooksRequest extends AbstractRequest
 {
+    public function getData()
+    {
+        return [];
+    }
+
     /**
      * Send data and return response instance.
      *

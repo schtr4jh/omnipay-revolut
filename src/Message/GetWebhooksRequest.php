@@ -14,6 +14,11 @@ use function json_encode;
  */
 class GetWebhooksRequest extends AbstractRequest
 {
+    public function getData()
+    {
+        return [];
+    }
+
     /**
      * Send data and return response instance.
      *
@@ -23,7 +28,7 @@ class GetWebhooksRequest extends AbstractRequest
      *
      * @return mixed
      */
-    public function sendData($body)
+    public function sendData($body = [])
     {
         $headers = [
             'Authorization' => 'Bearer ' . $this->getAccessToken(),
@@ -33,8 +38,7 @@ class GetWebhooksRequest extends AbstractRequest
         $httpResponse = $this->httpClient->request(
             $this->getHttpMethod(),
             $this->getEndpoint(),
-            $headers,
-            json_encode($body)
+            $headers
         );
 
         return $this->createResponse($httpResponse->getBody()->getContents(), $httpResponse->getHeaders());
